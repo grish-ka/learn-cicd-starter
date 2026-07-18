@@ -18,12 +18,6 @@ jobs:
         with:
           go-version: "1.26.0"
 
-      - name: go version check
+      - name: go test
         run: |
-          go version
-          if go version | grep -q "go1.26"; then
-            echo "Go version is correct"
-          else
-            echo "Go version is incorrect"
-            exit 1
-          fi
+          go test ./...
