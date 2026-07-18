@@ -34,8 +34,10 @@ jobs:
         with:
           go-version: "1.26.0"
 
-      - name: Install staticcheck
-        run: go install honnef.co/go/tools/cmd/staticcheck@latest
+      - name: Install dependencies
+        run: |
+          go install honnef.co/go/tools/cmd/staticcheck@latest
+          go install github.com/securego/gosec/v2/cmd/gosec@latest
 
       - name: format check
         run: |
@@ -44,4 +46,8 @@ jobs:
       - name: staticcheck lint
         run: |
           staticcheck ./...
+      
+      - name: gosec security check
+        run: |
+          gosec ./...
       
