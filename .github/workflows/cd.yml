@@ -17,8 +17,27 @@ jobs:
         uses: actions/setup-go@v6
         with:
           go-version: "1.26.0"
+      
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v3'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
 
       - name: build product
         run: |
           ./scripts/buildprod.sh
+
+      - name: build image
+        run: |
+          docker build -t grishkkka/notely:latest .
+
+      - name: gcloud push to ar
+        run: |
+          gcloud builds submit --tag europe-west2-docker.pkg.dev/notely-502919/notely-ar-repo/notely:latest .
       
